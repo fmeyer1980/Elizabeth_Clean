@@ -1,0 +1,306 @@
+{% capture vertical_alignment %}
+  {% case section.settings.vertical_alignment %}
+    {% when 'top' %} justify-start {% when 'center' %} justify-center {% when 'bottom' %}justify-end
+  {% endcase %}
+{% endcapture %}
+
+{% capture horizontal_alignment %}
+  {% case section.settings.horizontal_alignment %}
+    {% when 'left' %} items-start {% when 'center' %} items-center {% when 'right' %} items-end
+  {% endcase %}
+{% endcapture %}
+
+<section class=" bg-dark text-light-glare" aria-label="{{ section.settings.title }}">
+  <div class="relative py-lg min-h-[clamp(28rem,calc(30vh+30vw),50rem)] flex flex-col {{ vertical_alignment }}">
+    <div class="absolute inset-0 before:absolute before:inset-0 before:w-full before:h-full before:bg-gradient-to-r before:from-dark-shade/50 before:to-dark-shade/0 before:z-10">
+      {% if section.settings.video %}
+        {{
+           section.settings.video
+         | video_tag:
+         image_size: '1200x',
+         autoplay: true,
+         loop: true,
+         controls: false,
+         muted: true,
+         class: ' w-full h-full object-cover' }}
+
+      {% elsif section.settings.image %}
+        {{
+           section.settings.image
+         | image_url: width: 1600, height: 800, crop: 'center'
+         | image_tag: preload: true, alt: section.settings.title, class: 'w-full h-full object-cover' }}
+      {% else %}
+        <div class="w-full h-full grid place-items-center">
+          {% render 'image-placeholder', class: 'h-1/2 opacity-50' %}
+        </div>
+      {% endif %}
+    </div>
+    <div class="relative z-10 flex flex-col flow-y flow-space-100 container-wrapper {{ horizontal_alignment }}">
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'title' %}
+          <p
+            class="text-xs {% if block.settings.title_bg-color != blank %} py-[.4em] px-[.8em] {% endif %}"
+            style="background-color: {{ block.settings.title_bg-color }}; color: {{ block.settings.title_text-color }};"
+            {{ block.shopify_attributes }}>
+            {{ block.settings.title }}
+          </p>
+          {% when 'heading' %}
+          {% case block.settings.heading_tag %}
+            {% when 'h1' %}
+            <h1 {{ block.shopify_attributes }}>{{ block.settings.headline }}</h1>
+            {% when 'h2' %}
+            <h2 class="h1" {{ block.shopify_attributes }}>{{ block.settings.headline }}</h2>
+            {% when 'h3' %}
+            <h3 class="h1 {{ block.shopify_attributes }}">{{ block.settings.headline }}</h3>
+          {% endcase %}
+          {% when 'text' %}
+          <div class="text-300 max-w-[45ch]" {{ block.shopify_attributes }}>
+            {{ block.settings.text }}
+          </div>
+          {% when 'button' %}
+          <div class="flex gap-200 flow-space-600" {{ block.shopify_attributes }}>
+            {% if block.settings.btn_one_link_text %}
+              <a
+                class="btn flow-space-700"
+                data-type="{{ block.settings.btn_one_link_style }}"
+                href="{{ block.settings.btn_one_link_url }}">
+                {{ block.settings.btn_one_link_text }}
+              </a>
+            {% endif %}
+
+            {% if block.settings.btn_two_link_text != blank %}
+              <a
+                class="btn flow-space-700"
+                data-type="{{ block.settings.btn_two_link_style }}"
+                href="{{ block.settings.btn_two_link_url }}">
+                {{ block.settings.btn_two_link_text }}
+              </a>
+            {% endif %}
+          </div>
+        {% endcase %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Banner image",
+    "blocks": [
+      {
+        "type": "title",
+        "name": "Title",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "default": "Title",
+            "label": "Title"
+          }, {
+            "type": "color",
+            "id": "title_text-color",
+            "label": "Title text color"
+          }, {
+            "type": "color",
+            "id": "title_bg-color",
+            "label": "Title background color"
+          }
+        ]
+      }, {
+        "type": "heading",
+        "name": "Heading",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "text",
+            "id": "headline",
+            "default": "Indtast din overskrift her",
+            "label": "Headline"
+          }, {
+            "type": "select",
+            "id": "heading_tag",
+            "label": "Heading tag",
+            "options": [
+              {
+                "value": "h1",
+                "label": "H1"
+              }, {
+                "value": "h2",
+                "label": "H2"
+              }, {
+                "value": "h3",
+                "label": "h3"
+              }
+            ],
+            "default": "h1"
+          }
+        ]
+      }, {
+        "type": "text",
+        "name": "Text",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "richtext",
+            "id": "text",
+            "label": "Text",
+            "default": "<p>Lav din personlige avatar, og opdag en helt ny udgave af dig selv, der er skabt ud fra din foretrukne musik.</p>"
+          }
+        ]
+      }, {
+        "type": "button",
+        "name": "Buttons",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "text",
+            "id": "btn_one_link_text",
+            "label": "Button one link text",
+            "default": "Læs mere"
+          },
+          {
+            "type": "url",
+            "id": "btn_one_link_url",
+            "label": "Button one link url"
+          },
+          {
+            "type": "select",
+            "id": "btn_one_link_style",
+            "label": "Button one link style",
+            "options": [
+              {
+                "label": "Solid primary",
+                "value": "solid-primary"
+              },
+              {
+                "label": "Solid dark",
+                "value": "solid-dark"
+              },
+              {
+                "label": "Solid light",
+                "value": "solid-light"
+              },
+              {
+                "label": "Stroke primary",
+                "value": "stroke-primary"
+              }, {
+                "label": "Stroke dark",
+                "value": "stroke-dark"
+              }, {
+                "label": "Stroke light",
+                "value": "stroke-light"
+              }, {
+                "label": "default",
+                "value": "default"
+              }
+            ],
+            "default": "solid-primary"
+          },
+          {
+            "type": "text",
+            "id": "btn_two_link_text",
+            "label": "Button two link text",
+            "default": "Læs mere"
+          }, {
+            "type": "url",
+            "id": "btn_two_link_url",
+            "label": "Button two link url"
+          }, {
+            "type": "select",
+            "id": "btn_two_link_style",
+            "label": "Button two link style",
+            "options": [
+              {
+                "label": "Solid primary",
+                "value": "solid-primary"
+              },
+              {
+                "label": "Solid dark",
+                "value": "solid-dark"
+              },
+              {
+                "label": "Solid light",
+                "value": "solid-light"
+              },
+              {
+                "label": "Stroke primary",
+                "value": "stroke-primary"
+              }, {
+                "label": "Stroke dark",
+                "value": "stroke-dark"
+              }, {
+                "label": "Stroke light",
+                "value": "stroke-light"
+              }, {
+                "label": "default",
+                "value": "default"
+              }
+            ],
+            "default": "stroke-light"
+          }
+        ]
+      }
+    ],
+    "settings": [
+      {
+        "type": "select",
+        "id": "vertical_alignment",
+        "label": "Text vertical alignment",
+        "options": [
+          {
+            "value": "top",
+            "label": "Top"
+          }, {
+            "value": "center",
+            "label": "Center"
+          }, {
+            "value": "bottom",
+            "label": "Bottom"
+          }
+        ],
+        "default": "center"
+      }, {
+        "type": "select",
+        "id": "horizontal_alignment",
+        "label": "Text horizontal alignment",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          }, {
+            "value": "center",
+            "label": "Center"
+          }, {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "left"
+      }, {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      }, {
+        "type": "video",
+        "id": "video",
+        "label": "Video"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Banner image",
+        "blocks": [
+          {
+            "type": "title"
+          }, {
+            "type": "heading"
+          }, {
+            "type": "button"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,72 @@
+/* @font-face {
+  font-family: "BeoSupreme";
+  src: url("/BeoSupreme-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "BeoSupreme";
+  src: url("/BeoSupreme-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "BeoSupreme";
+  src: url("/BeoSupreme-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "BeoSupreme";
+  src: url("/BeoSupreme-Bold.otf") format("otf");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+} */
+
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4,
+h5,
+.h5 {
+  @apply font-heading font-semibold leading-tight;
+  text-wrap: balance;
+}
+
+h1,
+.h1 {
+  @apply text-800;
+}
+
+h2,
+.h2 {
+  @apply text-700 ;
+}
+
+h3,
+.h3 {
+  @apply text-500;
+}
+
+h4,
+.h4 {
+  @apply text-350;
+}
+
+h5,
+.h5 {
+  @apply text-200;
+}
+
+h6,
+.h6 {
+  @apply text-100;
+}

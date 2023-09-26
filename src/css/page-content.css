@@ -1,0 +1,87 @@
+.page-content > *:not(.media){
+  @apply max-w-[50rem]
+}
+
+.page-content > :is(p,ol,ul) {
+  @apply text-dark-shade/80
+}
+
+.page-content :is(strong) {
+  @apply text-dark-shade
+}
+
+.page-content>blockquote {
+  @apply border-l-4 border-primary pl-[1.2em] text-[1.1em] font-bold italic my-[2em];
+}
+
+.page-content>p>small {
+  font-size: .8em;
+}
+
+
+.page-content>ol:not([class]),
+.page-content>ul:not([class]) {
+  @apply pl-700 list-disc;
+}
+
+.page-content>ol,
+.page-content>ul {
+  @apply my-[1em];
+}
+
+.page-content>hr {
+  @apply w-full h-px border-0 my-[3em] bg-dark-shade/10;
+}
+
+.page-content>a,
+.page-content>p a,
+.page-content>figure a {
+  @apply text-primary-shade font-bold underline;
+}
+
+.page-content h1 {
+  font-size: theme(fluidSpacing.700);
+  max-width: 25ch;
+}
+
+.page-content>h2 {
+  font-size: var(--size-600);
+  max-width: 30ch;
+}
+
+.page-content>h3 {
+  max-width: 35ch;
+}
+
+.page-content>h3 {
+  max-width: 40ch;
+}
+
+.page-content>h1,
+.page-content>h2,
+.page-content>h3,
+.page-content>h4 {
+  --flow-space: 1.7em;
+}
+
+.page-content>h1+*,
+.page-content>h2+*,
+.page-content>h3+*,
+.page-content>h4+* {
+  --flow-space: 1.2em;
+}
+
+.page-content>h1+.xl-text,
+.page-content>h2+.xl-text,
+.page-content>h3+.xl-text,
+.page-content>h4+.xl-text {
+  --flow-space: 2.2em;
+}
+
+.page-content>img {
+  @apply my-700 rounded-[3px];
+}
+
+.page-content>p>img {
+  @apply my-700 rounded-[3px];
+}

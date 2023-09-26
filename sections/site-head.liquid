@@ -1,0 +1,48 @@
+<div class="site-head container-wrapper h-900 relative w-full z-[90] flex items-center gap-gutter text-light-glare bg-dark text-sm justify-end" x-data="{ showMobilMenu: false }">
+  <div class="md:hidden w-[25%]">
+    <button class="" x-on:click="showMobilMenu = true">{% render 'icon-menu-bar', class: 'h-400' %}</button>
+  </div>
+  <a class="h-[45%] w-auto mr-auto" href="/">
+    {% render 'logo' class: 'h-full' %}
+  </a>
+  <nav>
+    <menu class="flex flex-wrap gap-x-[1.5em] font-semibold gap-y-[.5em]">
+      {% for link in linklists.main-menu.links %}
+        <li class="">
+          <a class="uppercase text-xs" href="{{ link.url }}">
+            {{ link.title }} {{ link.image }}
+          </a>
+        </li>
+      {% endfor %}
+    </menu>
+  </nav>
+  <a href="{{ routes.cart_url }}" class=" relative h-650 md:h-550">
+    {% render 'icon-basket', class: 'h-full' %}
+    {% if cart.item_count > 0 %}
+      <svg
+        class=" absolute bottom-[42%] right-[18%] translate-x-1/2 text-primary h-[35%]"
+        xmlns="http://www.w3.org/2000/svg"
+        width="11"
+        height="12"
+        fill="none"
+        viewBox="0 0 11 12"><path
+          fill="currentColor"
+          stroke="light-glare"
+          d="M5.5 10.975a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" /></svg>
+    {% endif %}
+    {% if cart.item_count > 0 %}
+      <span aria-hidden="true" class="absolute bottom-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 text-tiny leading-none font-bold pt-[.2em]">{{ cart.item_count }}</span>
+    {% endif %}
+  </a>
+</div>
+
+
+
+{% schema %}
+  {
+    "name": "header",
+    "class": "section-header",
+    "tag": "header",
+    "settings": []
+  }
+{% endschema %}

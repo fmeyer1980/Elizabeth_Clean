@@ -1,0 +1,79 @@
+.reel {
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+}
+
+.reel > * {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    /* animation: reel-ani .1s ease forwards; */
+}
+
+.reel::-webkit-scrollbar {
+    background:#4D4D4D;
+    height:3px;
+}
+
+.reel::-webkit-scrollbar-thumb {
+    @apply bg-light-glare;
+}
+
+/* .reel::-webkit-scrollbar-track {
+
+} */
+
+/* .reel:hover::-webkit-scrollbar-thumb {
+    @apply bg-dark-glare rounded-full;
+} */
+
+@keyframes reel-ani {
+    0%{
+        scroll-snap-align: none;
+    }
+    100%{
+        scroll-snap-align: start;
+    }
+}
+
+.reel-dark {
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+}
+
+.reel-dark > * {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    /* animation: reel-ani .1s ease forwards; */
+}
+
+.reel-dark::-webkit-scrollbar {
+    background:#e6e3e3;
+    height:3px;
+}
+
+.reel-dark::-webkit-scrollbar-thumb {
+    @apply bg-dark-glare;
+}
+
+/* .reel::-webkit-scrollbar-track {
+
+} */
+
+/* .reel:hover::-webkit-scrollbar-thumb {
+    @apply bg-dark-glare rounded-full;
+} */
+
+@keyframes reel-ani {
+    0%{
+        scroll-snap-align: none;
+    }
+    100%{
+        scroll-snap-align: start;
+    }
+}

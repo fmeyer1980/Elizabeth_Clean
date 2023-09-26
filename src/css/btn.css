@@ -1,0 +1,79 @@
+.btn {
+  @apply py-[.8em] px-[1.4em] text-200 font-medium inline-flex items-center leading-none space-x-[.4em] justify-center transition-colors;
+}
+
+.btn[data-type='default'] {
+  @apply p-0 underline underline-offset-8 decoration-dark;
+}
+
+/* .btn[data-type='default']:hover {
+  @apply hover:after:right-0 hover:after:w-full;
+} */
+
+
+
+.btn[data-type='solid-primary'] {
+  @apply bg-dark-shade text-light-glare;
+}
+
+.btn[data-type='solid-primary']:hover {
+  @apply bg-dark-shade text-light-glare;
+}
+
+
+
+.btn[data-type='solid-light'] {
+  @apply bg-light-glare text-dark;
+}
+
+.btn[data-type='solid-light']:hover {
+  @apply bg-dark text-light-glare;
+}
+
+
+.btn[data-type='solid-dark'] {
+  @apply bg-dark text-light-glare;
+}
+
+.btn[data-type='solid-dark']:hover {
+  @apply bg-dark text-light-glare;
+}
+
+
+
+.btn[data-type='stroke-light'] {
+  @apply ring-1 ring-inset ring-light-glare bg-transparent text-light-glare;
+}
+
+.btn[data-type='stroke-light']:hover {
+  @apply ring-1 ring-inset ring-light-glare bg-light-glare text-dark-shade;
+}
+
+
+
+.btn[data-type='stroke-dark'] {
+  @apply ring-1 ring-inset ring-dark bg-transparent text-dark-shade;
+}
+
+.btn[data-type='stroke-dark']:hover {
+  @apply ring-1 ring-inset ring-dark-shade bg-dark-shade text-light-glare;
+}
+
+
+
+.btn[data-type='stroke-primary'] {
+  @apply ring-2 ring-inset ring-primary bg-transparent text-primary;
+}
+
+.btn[data-type='stroke-primary']:hover {
+  @apply ring-2 ring-inset ring-primary bg-primary text-dark-shade;
+}
+
+/* .btn[data-type='light'] {
+  @apply bg-light-glare text-primary;
+}
+
+
+.btn[data-type='primary-stroke'] {
+  @apply text-light-glare ring-1 ring-primary;
+} */

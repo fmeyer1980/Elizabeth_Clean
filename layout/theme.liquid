@@ -8,11 +8,20 @@
     <link rel="canonical" href="{{ canonical_url }}">
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
     {{ content_for_header }}
-    <!-- Header hook for plugins -->
-    {{ 'application.css' | asset_url | stylesheet_tag }}
-    {{ 'application.js' | asset_url | script_tag }}
+    {{ 'tailwind.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'app.js' | asset_url }}" defer></script>
+    {% style %}
+      @font-face {
+        font-family: "Jost";
+        src: url("{{ 'Jost_wght.woff2' | asset_url }}") format("woff2");
+        font-weight: 0 900;
+        font-display: swap;
+      }
+    {% endstyle %}
   </head>
   <body>
+    {% section 'announcement-bar' %}
+    {% section 'site-head' %}
     <main role="main">
       {{ content_for_layout }}
     </main>

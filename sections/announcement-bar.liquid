@@ -1,0 +1,18 @@
+{% if section.settings.text != blank %}
+  <div class="full-bleed bg-dark-glare text-light-glare min-h-[48px] px-gutter grid place-items-center text-tiny md:text-xs leading-tight text-center prose-a:underline prose-a:underline-offset-2 prose-a:decoration-1 hover:prose-a:text-primary">
+    <p class="max-w-[35ch] sm:max-w-[100ch]">{{ section.settings.text }}</p>
+  </div>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Announcement bar",
+    "settings": [
+      {
+        "type": "inline_richtext",
+        "id": "text",
+        "label": "Text"
+      }
+    ]
+  }
+{% endschema %}

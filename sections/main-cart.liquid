@@ -1,0 +1,166 @@
+{% if cart.item_count > 0 %}
+  <section class="container-wrapper py-900 flex flex-col">
+    <div class="mb-900">
+      <h1>{{ "sections.cart.title" | t }}</h1>
+    </div>
+    <div class="md:border-b md:border-black/10">
+      <div class="hidden md:grid md:grid-cols-[2fr,1fr,1fr,0.5fr] pb-200">
+        <div>
+          <b>{{ "sections.cart.headings.product" | t }}</b>
+        </div>
+        <div>
+          <b>{{ "sections.cart.headings.quantity" | t }}</b>
+        </div>
+        <div>
+          <b>{{ "sections.cart.headings.total" | t }}</b>
+        </div>
+      </div>
+      <form
+        action="{{ routes.cart_url }}"
+        method="POST"
+        novalidate>
+        <div class="grid grid-cols-2 gap-400 md:block">
+          {% for item in cart.items %}
+            <div class="grid grid-cols-1 space-y-400 md:space-y-0 md:grid-cols-[2fr,1fr,1fr,0.5fr] md:gap-400 py-400 items-center border border-[#d8d6d6] px-gutter {% if item.properties.BundleID %} md:mb-[-1px] {% else %} md:border-b-0 md:border-x-0 md:px-0 {% endif %} {% if current_bundleid != bundleid %} md:mt-200 {% endif %}">
+              <div class="grid md:flex items-center gap-400">
+                <a class="shrink-0" href="{{ item.url | within: collections.all }}">
+                  <img
+                    class="w-full"
+                    width="90"
+                    height="90"
+                    loading="lazy"
+                    src="{{ item | img_url: '90X90' }}"
+                    alt="{{ item.title | escape }}">
+                </a>
+                <div class="flex flex-col space-y-1">
+                  <a class="h5" href="{{ item.url }}">{{ item.product.title }}</a>
+                  <p class="text-xs opacity-70">{{ item.variant.title }}</p>
+                </div>
+              </div>
+              <quantity-input class="quantity cart-quantity border border-dark/10 flex items-center h-800 w-full justify-between md:w-[min-content]">
+                <button
+                  class="quantity__button no-js-hidden relative h-full aspect-square grid place-items-center"
+                  name="minus"
+                  type="button">
+                  <span class="invisible absolute">
+                    {{- 'products.product.quantity.decrease' | t: product: item.product.title | escape -}}
+                  </span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    focusable="false"
+                    class="w-2 pointer-events-none"
+                    fill="none"
+                    viewBox="0 0 10 2"><path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M.5 1C.5.7.7.5 1 .5h8a.5.5 0 110 1H1A.5.5 0 01.5 1z"
+                      fill="currentColor" /></svg>
+                </button>
+                <input
+                  class="quantity__input bg-transparent border-none h-full w-[3rem] text-center ml-2 font-bold"
+                  data-quantity-variant-id="{{ item.variant.id }}"
+                  type="number"
+                  name="updates[]"
+                  value="{{ item.quantity }}"
+                  data-cart-quantity="{{ cart | item_count_for_variant: item.variant.id }}"
+                  min="{{ item.variant.quantity_rule.min }}"
+                  {% if item.variant.quantity_rule.max != null %}
+                  max="{{ item.variant.quantity_rule.max }}"
+                  {% endif %}
+                  step="{{ item.variant.quantity_rule.increment }}"
+                  aria-label="{{ 'products.product.quantity.input_label' | t: product: item.product.title | escape }}"
+                  id="Quantity-{{ item.index | plus: 1 }}"
+                  data-index="{{ item.index | plus: 1 }}">
+                <button
+                  class="quantity__button no-js-hidden relative h-full aspect-square grid place-items-center"
+                  name="plus"
+                  type="button">
+                  <span class="invisible absolute">
+                    {{- 'products.product.quantity.increase' | t: product: item.product.title | escape -}}
+                  </span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    focusable="false"
+                    class="w-2.5 pointer-events-none"
+                    fill="none"
+                    viewBox="0 0 10 10"><path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M1 4.51a.5.5 0 000 1h3.5l.01 3.5a.5.5 0 001-.01V5.5l3.5-.01a.5.5 0 00-.01-1H5.5L5.49.99a.5.5 0 00-1 .01v3.5l-3.5.01H1z"
+                      fill="currentColor" /></svg>
+                </button>
+              </quantity-input>
+              <div>
+                <span class="h4">
+                  {% if item.original_line_price != item.line_price %}
+                    {{ item.original_line_price | money }}{% endif %}
+                  {{ item.line_price | money }}
+                  {% for discount in item.discounts %}
+                    {{ discount.title }}{% endfor %}
+                </span>
+              </div>
+              <div>
+                <a class="underline underline-offset-4 !mt-0" href="/cart/change?line={{ forloop.index }}&amp;quantity=0">{{ "sections.cart.remove" | t }}</a>
+              </div>
+
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div style="justify-content:end" class="flex items-center md\:justify-end justify-end mt-700">
+        <label class="checkbox-container md:max-w-[22rem]">
+          <input type="checkbox" id="terms-checkbox">
+          <span class="checkmark"></span>
+          {% if settings.cart_terms_conditions_page != blank %}
+            {{ 'sections.general.terms_html' | t: url: settings.cart_terms_conditions_page.url }}
+          {% else %}
+            {{ 'sections.general.accept_terms' | t }}
+          {% endif %}
+        </label>
+      </div>
+      <div class="p-gutter border border-black/10 mt-100 ml-auto w-full md:max-w-[22rem] flow-y flow-space-100">
+        <p class="text-500">{{ "sections.cart.subtotal" | t }}:
+          <b>{{ cart.total_price | money }}</b>
+        </p>
+        <p>
+          {{ "sections.cart.taxes_and_shipping_at_checkout" | t }}
+        </p>
+        <div class="flex flex-wrap gap-100 flow-space-400">
+          <button
+            class="btn grow"
+            data-type="stroke-dark"
+            type="submit"
+            name="update">{{ "sections.cart.update" | t }}</button>
+          <button
+            class="btn grow opacity-50 cursor-not-allowed pointer-events-none"
+            id="check-out-btn"
+            data-type="solid-dark"
+            type="submit"
+            name="checkout">
+            {{ "sections.cart.checkout" | t }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </section>
+{% endif %}
+
+<script>
+  const terms_box = document.getElementById('terms-checkbox');
+  const checkout_btn = document.getElementById('check-out-btn');
+
+  terms_box.addEventListener('change', function() {
+    if (terms_box.checked) {
+      checkout_btn.style.opacity = 1;
+      checkout_btn.style.pointerEvents = 'auto'; // Allow button to receive click events
+      checkout_btn.style.cursor = 'pointer';
+    } else {
+      checkout_btn.style.opacity = 0.5; // Or any other desired value to indicate "disabled"
+      checkout_btn.style.pointerEvents = 'none'; // Prevent button from receiving click events
+      checkout_btn.style.cursor = 'not-allowed';
+    }
+  });
+</script>
